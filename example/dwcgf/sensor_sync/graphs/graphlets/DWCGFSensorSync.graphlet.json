@@ -1,0 +1,33 @@
+{
+    "name": "DWCGFCameradriver",
+    "inputPorts": {},
+    "outputPorts": {
+        "IMAGE": {
+            "type": "dwImageHandle_t",
+            "array": 2
+        },
+        "IMAGE_TIMESTAMP": {
+            "type": "dwTime_t",
+            "array": 2
+        }
+    },
+    "parameters": {
+        "masterCameraIndex": {
+            "type": "size_t",
+            "default": 0
+        }
+    },
+    "subcomponents": {
+        "cameraEpochSync": {
+            "componentType": "./camera/DWCGFSensorSync.graphlet.json",
+            "parameters": {
+                "epochId": 0
+            }
+        },
+
+    },
+    "connections": [
+        { "src": "helloWorldNode.VALUE_0", "dests": {"sumNode.VALUE_0": {}}},
+        { "src": "helloWorldNode.VALUE_1", "dests": {"sumNode.VALUE_1": {}}}
+    ]
+}

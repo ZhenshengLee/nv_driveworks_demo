@@ -1,0 +1,85 @@
+{
+    "name": "DWCGFCameraDriverApp",
+    "logSpec": "file/rfc5424:{{logpath}}/{{appname}}.log",
+    "parameters": {},
+    "requiredSensors": "./DWCGFCameraDriver.required-sensors.json",
+    "sensorMappingLookups": [
+        "../sensor_mappings"
+    ],
+    "subcomponents": {
+        "dwcgfCameraDriver": {
+            "componentType": "../graphlets/DWCGFCameraDriver.graphlet.json",
+            "parameters": {}
+        }
+    },
+    "connections": [],
+    "states": {
+        "STANDARD": {
+            "stmScheduleKey": "standardSchedule",
+            "default": true
+        }
+    },
+    "stmSchedules": {
+        "standardSchedule": {
+            "wcet" : "./DWCGFCameraDriver_wcet.yaml",
+            "hyperepochs": {
+                "cameraDriverHyperepoch": {
+                    "period": 330000000,
+                    "epochs": {
+                        "cameraDriverEpoch": {
+                            "period": 330000000,
+                            "frames": 1,
+                            "passes": [
+                                [
+                                    "dwcgfCameraDriver.helloWorldNode",
+                                    "dwcgfCameraDriver.sumNode"
+                                ]
+                            ]
+                        }
+                    },
+                    "resources": {
+                        "machine0.CPU0": []
+                    }
+                }
+            }
+        }
+    },
+    "processes": {
+        "ssm": {
+            "runOn": "machine0",
+            "executable": "vanillassm",
+            "logSpec": "file:{{logpath}}/{{appname}}.log"
+        },
+        "schedule_manager": {
+            "runOn": "machine0",
+            "executable": "ScheduleManager",
+            "argv": {
+                "--enableScheduleSwitching": "false",
+                "--scheduleManagerHostIP": "127.0.0.1",
+                "--scheduleManagerHostPort": "40100",
+                "--scheduleManagerNumClients": "1"
+            }
+        },
+        "stm_master": {
+            "runOn": "machine0",
+            "executable": "stm_master",
+            "logSpec": "file:{{logpath}}/{{appname}}.log",
+            "argv": {
+                "--allow-unregistered-runnables": true,
+                "--timeout-us": "60000000",
+                "--soc": "TegraA",
+                "-v": true,
+                "-m": true
+            }
+        },
+        "cameraDriver_process0": {
+            "runOn": "machine0",
+            "executable": "LoaderLite",
+            "subcomponents": [
+                "dwcgfCameraDriver.helloWorldNode",
+                "dwcgfCameraDriver.sumNode"
+            ]
+        }
+    },
+    "extraInfo": "./DWCGFCameraDriverExtraInfo.json"
+}

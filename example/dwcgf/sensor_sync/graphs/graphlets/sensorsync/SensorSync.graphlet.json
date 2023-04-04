@@ -1,0 +1,75 @@
+{
+    "name": "SensorSync",
+    "inputPorts": {
+        "SENSOR_TIMESTAMP": {
+            "type": "dwTime_t",
+            "array": 2
+        }
+    },
+    "outputPorts": {
+        "SYNC_TIMESTAMP": {
+            "type": "dwTime_t",
+            "array": 2
+        }
+    },
+    "parameters": {
+        "minTimestep": {
+            "type": "dwTime_t",
+            "default": 0
+        },
+        "epochId": {
+            "type": "uint32_t",
+            "default": 0
+        },
+        "syncServerHostIP": {
+            "type": "std::string",
+            "default": "127.0.0.1"
+        },
+        "syncServerHostPort": {
+            "type": "uint16_t",
+            "default": 40001
+        },
+        "logTimestampDiff": {
+            "type": "bool",
+            "default": false
+        },
+        "logTimestampDiffInterval": {
+            "type": "uint32_t",
+            "default": 0
+        }
+    },
+    "subcomponents": {
+        "sensorSyncNode": {
+            "componentType": "/usr/local/driveworks/src/cgf/nodes/SensorSyncNode.node.json",
+            "parameters": {
+                "*": "$*"
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": "sensorSyncNode.SYNC_TIMESTAMP[0]",
+            "dests": {
+                "SYNC_TIMESTAMP[0]": {}
+            }
+        },
+        {
+            "src": "sensorSyncNode.SYNC_TIMESTAMP[1]",
+            "dests": {
+                "SYNC_TIMESTAMP[1]": {}
+            }
+        },
+        {
+            "src": "SENSOR_TIMESTAMP[0]",
+            "dests": {
+                "sensorSyncNode.SENSOR_TIMESTAMP[0]": {}
+            }
+        },
+        {
+            "src": "SENSOR_TIMESTAMP[1]",
+            "dests": {
+                "sensorSyncNode.SENSOR_TIMESTAMP[1]": {}
+            }
+        }
+    ]
+}
