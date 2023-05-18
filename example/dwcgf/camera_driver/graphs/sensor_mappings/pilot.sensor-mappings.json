@@ -1,0 +1,8 @@
+{
+    "pilot": {
+        "pilot_camera0": "camera:front:left"
+    },
+    "pilot_sim": {
+        "synthesizedCameraFC60": "camera:front:left"
+    }
+}

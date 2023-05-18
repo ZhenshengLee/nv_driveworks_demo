@@ -26,15 +26,6 @@
                 "cameraHyperepoch": {
                     "period": 33000000,
                     "epochs": {
-                        "renderEpoch": {
-                            "period": 33000000,
-                            "frames": 1,
-                            "passes": [
-                                [
-                                    "dwcgfCameraDriver.arender"
-                                ]
-                            ]
-                        },
                         "cameraEpoch": {
                             "period": 33000000,
                             "frames": 1,
@@ -54,7 +45,6 @@
                         "machine0.dGPU": [],
                         "cameraDriver_process.CUDA_STREAM0:dGPU": [],
                         "cameraDriver_process.CUDA_MUTEX_LOCK": [
-                            "dwcgfCameraDriver.arender.renderingNode",
                             "dwcgfCameraDriver.cameraSensor.cameraNode.PASS_RAW_OUTPUT_CPU_SYNC",
                             "dwcgfCameraDriver.cameraSensor.cameraNode.PASS_PROCESSED_OUTPUT_CPU_SYNC"
                         ]
@@ -95,8 +85,7 @@
             "runOn": "machine0",
             "executable": "LoaderLite",
             "subcomponents": [
-                "dwcgfCameraDriver.cameraSensor",
-                "dwcgfCameraDriver.arender"
+                "dwcgfCameraDriver.cameraSensor"
             ],
             "argv": {
                 "--nodeInitThreadPoolSize": "7",

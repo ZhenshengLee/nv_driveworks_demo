@@ -27,12 +27,6 @@
             "parameters": {
                 "cameraIndex": 0
             }
-        },
-        "arender": {
-            "componentType": "./render/Render.graphlet.json",
-            "parameters": {
-                "masterCameraIndex": "$masterCameraIndex"
-            }
         }
     },
     "connections": [
@@ -55,16 +49,6 @@
             "src": "cameraSensor.IMAGE_TIMESTAMP",
             "dests": {
                 "IMAGE_TIMESTAMP": {}
-            }
-        },
-        {
-            "src": "cameraSensor.CUDA_ISP_YUV_UINT_8_HALF_RES",
-            "dests": {
-                "IMAGE": {},
-                "arender.IMAGE[0]": {
-                    "mailbox": true,
-                    "reuse": true
-                }
             }
         }
     ]

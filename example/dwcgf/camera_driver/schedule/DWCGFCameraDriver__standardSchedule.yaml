@@ -16,7 +16,7 @@ standardSchedule:
               - camera_master.dwcgfCameraDriver_cameraEpochSync_sensorSyncNode_pass_2
               Resources:
               - CPU
-              WCET: 1.00 us
+              WCET: 374.00 us
           - dwcgfCameraDriver_cameraSensor_cameraNode_pass_1:
               Dependencies:
               - cameraDriver_process.cameraDriver_process_ssm_pass_0
@@ -26,7 +26,7 @@ standardSchedule:
               - CUDA_MUTEX_LOCK
               - CUDA_STREAM
               Submits: cameraDriver_process.dwcgfCameraDriver_cameraSensor_cameraNode_pass_1_submittee
-              WCET: 1.00 us
+              WCET: 2.00 us
           - dwcgfCameraDriver_cameraSensor_cameraNode_pass_1_submittee:
               Dependencies:
               - cameraDriver_process.dwcgfCameraDriver_cameraSensor_cameraNode_pass_1
@@ -42,7 +42,7 @@ standardSchedule:
               - CUDA_MUTEX_LOCK
               - CUDA_STREAM
               Submits: cameraDriver_process.dwcgfCameraDriver_cameraSensor_cameraNode_pass_2_submittee
-              WCET: 1.00 us
+              WCET: 478.00 us
           - dwcgfCameraDriver_cameraSensor_cameraNode_pass_2_submittee:
               Dependencies:
               - cameraDriver_process.dwcgfCameraDriver_cameraSensor_cameraNode_pass_2
@@ -71,14 +71,14 @@ standardSchedule:
               - cameraDriver_process.dwcgfCameraDriver_cameraSensor_cameraNode_pass_3_submittee
               Resources:
               - CPU
-              WCET: 1.00 us
+              WCET: 102.00 us
           - dwcgfCameraDriver_cameraSensor_ispNode_pass_0:
               Dependencies:
               - cameraDriver_process.cameraDriver_process_ssm_pass_0
               - cameraDriver_process.dwcgfCameraDriver_cameraSensor_cameraNode_pass_4
               Resources:
               - CPU
-              WCET: 1.00 us
+              WCET: 24.00 us
           - dwcgfCameraDriver_cameraSensor_ispNode_pass_1:
               Dependencies:
               - cameraDriver_process.cameraDriver_process_ssm_pass_0
@@ -88,69 +88,20 @@ standardSchedule:
               - CUDA_MUTEX_LOCK
               - CUDA_STREAM
               Submits: cameraDriver_process.dwcgfCameraDriver_cameraSensor_ispNode_pass_1_submittee
-              WCET: 1.00 us
+              WCET: 124.00 us
           - dwcgfCameraDriver_cameraSensor_ispNode_pass_1_submittee:
               Dependencies:
               - cameraDriver_process.dwcgfCameraDriver_cameraSensor_ispNode_pass_1
               Resources:
               - GPU
-              WCET: 1.00 us
+              WCET: 182.00 us
           - dwcgfCameraDriver_cameraSensor_ispNode_pass_2:
               Dependencies:
               - cameraDriver_process.cameraDriver_process_ssm_pass_0
               - cameraDriver_process.dwcgfCameraDriver_cameraSensor_ispNode_pass_1_submittee
               Resources:
               - CPU
-              WCET: 1.00 us
-      - cameraHyperepoch.renderEpoch:
-          Runnables:
-          - dwcgfCameraDriver_arender_renderingNode_pass_0:
-              Resources:
-              - CPU
-              - CUDA_MUTEX_LOCK
-              WCET: 1.00 us
-          - dwcgfCameraDriver_arender_renderingNode_pass_1:
-              Dependencies:
-              - cameraDriver_process.dwcgfCameraDriver_arender_renderingNode_pass_0
-              Resources:
-              - CPU
-              - CUDA_MUTEX_LOCK
-              WCET: 1.00 us
-          - dwcgfCameraDriver_arender_renderingNode_pass_2:
-              Dependencies:
-              - cameraDriver_process.dwcgfCameraDriver_arender_renderingNode_pass_1
-              Resources:
-              - CPU
-              - CUDA_MUTEX_LOCK
-              WCET: 1.00 us
-          - dwcgfCameraDriver_arender_renderingNode_pass_3:
-              Dependencies:
-              - cameraDriver_process.dwcgfCameraDriver_arender_renderingNode_pass_2
-              Resources:
-              - CPU
-              - CUDA_MUTEX_LOCK
-              WCET: 1.00 us
-          - dwcgfCameraDriver_arender_renderingNode_pass_4:
-              Dependencies:
-              - cameraDriver_process.dwcgfCameraDriver_arender_renderingNode_pass_3
-              Resources:
-              - CPU
-              - CUDA_MUTEX_LOCK
-              WCET: 1.00 us
-          - dwcgfCameraDriver_arender_renderingNode_pass_5:
-              Dependencies:
-              - cameraDriver_process.dwcgfCameraDriver_arender_renderingNode_pass_4
-              Resources:
-              - CPU
-              - CUDA_MUTEX_LOCK
-              WCET: 1.00 us
-          - dwcgfCameraDriver_arender_renderingNode_pass_6:
-              Dependencies:
-              - cameraDriver_process.dwcgfCameraDriver_arender_renderingNode_pass_5
-              Resources:
-              - CPU
-              - CUDA_MUTEX_LOCK
-              WCET: 1.00 us
+              WCET: 37.00 us
       Resources:
         CUDA_STREAM:
         - CUDA_STREAM0: dGPU
@@ -191,9 +142,6 @@ standardSchedule:
   - cameraHyperepoch:
       Epochs:
       - cameraEpoch:
-          Frames: 1
-          Period: 33.00 ms
-      - renderEpoch:
           Frames: 1
           Period: 33.00 ms
       Period: 33.00 ms
