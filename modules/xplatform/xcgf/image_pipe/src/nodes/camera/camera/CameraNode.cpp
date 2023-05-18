@@ -15,8 +15,9 @@ gwCameraNode::create(ParameterProvider& provider)
     return dw::framework::create<gwCameraNode>(provider);
 }
 
-gwCameraNode::gwCameraNode(const gwCameraNodeParams& params, const dwContextHandle_t ctx)
-    : ExceptionSafeSensorNode(std::make_unique<gwCameraNodeImpl>(params, ctx))
+gwCameraNode::gwCameraNode(const gwCameraNodeParams& params, const gwCameraNodeRuntimeParams& runtimeParams,
+                           const dwContextHandle_t ctx)
+  : ExceptionSafeSensorNode(std::make_unique<gwCameraNodeImpl>(params, runtimeParams, ctx))
 {
 }
 

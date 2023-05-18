@@ -25,7 +25,7 @@
                         1.3165
                     ]
                 },
-                "parameter": "camera-name=V1SIM623S4RU5195NB3,interface=csi-ef,CPHY-mode=1,link=3,output-format=processed,async-record=1,file-buffer-size=16777216,skip-eeprom=1",
+                "parameter": "video=./video/",
                 "properties": {
                     "Model": "ftheta",
                     "bw-poly": "0.000000000000000 5.35356812179089e-4 4.99266072928606e-10 4.27370422037554e-12 -6.68245573791717e-16",

@@ -32,6 +32,7 @@
                             "passes": [
                                 [
                                     "dwcgfRawCameraDeployPipe.cameraFrontLeftPipe",
+                                    "dwcgfRawCameraDeployPipe.cameraFrontRightPipe",
                                     "dwcgfRawCameraDeployPipe.render0"
                                 ]
                             ]
@@ -83,6 +84,7 @@
             "executable": "LoaderLite",
             "subcomponents": [
                 "dwcgfRawCameraDeployPipe.cameraFrontLeftPipe",
+                "dwcgfRawCameraDeployPipe.cameraFrontRightPipe",
                 "dwcgfRawCameraDeployPipe.render0"
             ],
             "argv": {

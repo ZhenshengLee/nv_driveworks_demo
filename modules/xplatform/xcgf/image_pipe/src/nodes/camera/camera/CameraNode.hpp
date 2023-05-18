@@ -4,6 +4,7 @@
 #include <string>
 
 // dwmodule
+#include <dw/rig/Rig.h>
 #include <dw/sensors/Sensors.h>
 #include <dw/sensors/camera/Camera.h>
 // dwcgf framework
@@ -31,16 +32,19 @@ class gwCameraNodeImpl;
 
 struct gwCameraNodeParams
 {
-    // todo: sal_handle in params
-    // todo: const* to fixedstring
     size_t cameraIndex;
+    size_t salStartIndex;
     gwCameraType cameraType;
     dw::core::FixedString<256> cameraParameter;
     dw::core::FixedString<256> cameraProtocol;
     dw::core::FixedString<256> cameraIntrinsics;
+};
+
+struct gwCameraNodeRuntimeParams
+{
+    dwConstRigHandle_t rig;
+    dwSALHandle_t sal;
     // cudaStream_t cudaStream;
-    // dwConstRigHandle_t rig;
-    // dwSALHandle_t sal;
 };
 
 class gwCameraNode : public ExceptionSafeSensorNode
@@ -77,9 +81,10 @@ class gwCameraNode : public ExceptionSafeSensorNode
     static constexpr auto describeParameters()
     {
         // file:///E:/orin_ws/nv_driveworks/driverorks-5.10/doc/nvcgf_html/cgf_tutorials_node.html
-        return describeConstructorArguments<gwCameraNodeParams, dwContextHandle_t>(
+        return describeConstructorArguments<gwCameraNodeParams, gwCameraNodeRuntimeParams, dwContextHandle_t>(
             describeConstructorArgument(
                 DW_DESCRIBE_PARAMETER(size_t, "cameraIndex"_sv, &gwCameraNodeParams::cameraIndex),
+                DW_DESCRIBE_PARAMETER(size_t, "salStartIndex"_sv, &gwCameraNodeParams::salStartIndex),
                 DW_DESCRIBE_PARAMETER(gwCameraType, "cameraType"_sv, &gwCameraNodeParams::cameraType),
                 DW_DESCRIBE_PARAMETER(dw::core::FixedString<256>, "cameraParameter"_sv,
                                       &gwCameraNodeParams::cameraParameter),
@@ -87,10 +92,13 @@ class gwCameraNode : public ExceptionSafeSensorNode
                                       &gwCameraNodeParams::cameraProtocol),
                 DW_DESCRIBE_PARAMETER(dw::core::FixedString<256>, "cameraIntrinsics"_sv,
                                       &gwCameraNodeParams::cameraIntrinsics)),
+            describeConstructorArgument(
+                DW_DESCRIBE_UNNAMED_PARAMETER(dwConstRigHandle_t, &gwCameraNodeRuntimeParams::rig),
+                DW_DESCRIBE_UNNAMED_PARAMETER(dwSALHandle_t, &gwCameraNodeRuntimeParams::sal)),
             describeConstructorArgument(DW_DESCRIBE_UNNAMED_PARAMETER(dwContextHandle_t)));
     }
 
-    gwCameraNode(const gwCameraNodeParams& params, const dwContextHandle_t ctx);
+    gwCameraNode(const gwCameraNodeParams& params, const gwCameraNodeRuntimeParams& runtimeParams, const dwContextHandle_t ctx);
 
     // constructors with dwSensorParams
     // gwCameraNode(const dwSensorParams& params, cudaStream_t cudaStream, dwSALHandle_t sal, dwContextHandle_t ctx);

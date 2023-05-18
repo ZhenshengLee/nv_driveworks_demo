@@ -26,6 +26,10 @@
             "type": "size_t",
             "default": 4
         },
+        "salStartCameraIndex": {
+            "type": "size_t",
+            "default": 5
+        },
         "masterApaCameraIndex": {
             "type": "size_t",
             "default": 0
@@ -40,8 +44,21 @@
             "componentType": "../graphlets/pipe/PilotPipe.graphlet.json",
             "parameters": {
                 "cameraIndex": 4,
+                "salStartIndex": "$salStartCameraIndex",
                 "cameraType": "GW_CAMERA_RAW",
-                "cameraParameter": "camera-name=V1SIM623S4RU5195NB3,interface=csi-ab,CPHY-mode=1,link=1,output-format=processed,async-record=1,file-buffer-size=16777216,skip-eeprom=1",
+                "cameraParameter": "camera-name=V1SIM623S4RU5195NB3,interface=csi-ab,CPHY-mode=1,link=0,output-format=processed,async-record=1,file-buffer-size=16777216,skip-eeprom=1",
+                "cameraProtocol": "camera.gmsl",
+                "cameraIntrinsics": "$cameraIntrinsics",
+                "preprocMode": "$pilotPreprocMode"
+            }
+        },
+        "cameraFrontRightPipe": {
+            "componentType": "../graphlets/pipe/PilotPipe.graphlet.json",
+            "parameters": {
+                "cameraIndex": 5,
+                "salStartIndex": "$salStartCameraIndex",
+                "cameraType": "GW_CAMERA_RAW",
+                "cameraParameter": "camera-name=V1SIM623S4RU5195NB3,interface=csi-ab,CPHY-mode=1,link=2,output-format=processed,async-record=1,file-buffer-size=16777216,skip-eeprom=1",
                 "cameraProtocol": "camera.gmsl",
                 "cameraIntrinsics": "$cameraIntrinsics",
                 "preprocMode": "$pilotPreprocMode"

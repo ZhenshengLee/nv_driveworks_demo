@@ -8,37 +8,51 @@ namespace framework
 
 constexpr char gwCameraNodeImpl::LOG_TAG[];
 
-gwCameraNodeImpl::gwCameraNodeImpl(const gwCameraNodeParams& params, const dwContextHandle_t ctx)
-  : m_params(params), m_ctx(ctx)
+gwCameraNodeImpl::gwCameraNodeImpl(const gwCameraNodeParams& params, const gwCameraNodeRuntimeParams& runtimeParams,
+                                   const dwContextHandle_t ctx)
+  : m_params(params), m_sal(runtimeParams.sal), m_rig(runtimeParams.rig), m_ctx(ctx)
 {
     // resolve params
-    DW_LOGD << "gwCameraNodeImpl: cameraIndex is: " << m_params.cameraIndex << "." << Logger::State::endl;
-    DW_LOGD << "gwCameraNodeImpl: cameraType is: " << as_integer(m_params.cameraType) << "." << Logger::State::endl;
-    DW_LOGD << "gwCameraNodeImpl: cameraParameter is: " << m_params.cameraParameter.c_str() << "." << Logger::State::endl;
-    DW_LOGD << "gwCameraNodeImpl: cameraProtocol is: " << m_params.cameraProtocol.c_str() << "." << Logger::State::endl;
-    DW_LOGD << "gwCameraNodeImpl: cameraIntrinsics is: " << m_params.cameraIntrinsics.c_str() << "." << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: cameraIndex is: " << m_params.cameraIndex << "." << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: salStartIndex is: " << m_params.salStartIndex << "." << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: cameraType is: " << as_integer(m_params.cameraType) << "." << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: cameraParameter is: " << m_params.cameraParameter.c_str() << "." << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: cameraProtocol is: " << m_params.cameraProtocol.c_str() << "." << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: cameraIntrinsics is: " << m_params.cameraIntrinsics.c_str() << "." << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: m_sal address is: " << (const uint64_t)(const void *)(m_sal) << "." << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: m_rig address is: " << (const uint64_t)(const void *)(m_rig) << "." << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: m_ctx address is: " << (const uint64_t)(const void *)(m_ctx) << "." << Logger::State::endl;
     // init workload
     // todo: need a app framework
-    FRWK_CHECK_DW_ERROR(dwSAL_initialize(&m_sal, m_ctx));
-    // interface=csi-ab/ef,link=0,1,2,3
     m_camera_param.parameters = m_params.cameraParameter.c_str();
     m_camera_param.protocol = m_params.cameraProtocol.c_str();
+    // if (4 == m_params.cameraIndex)
+    if (0)
+    {
+        DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: dwSAL_initialize: " << Logger::State::endl;
+        FRWK_CHECK_DW_ERROR(dwSAL_initialize(&m_sal, m_ctx));
+        DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: m_sal initialized address is: " << (const uint64_t)(const void *)(m_sal) << "." << Logger::State::endl;
+    }
     FRWK_CHECK_DW_ERROR(dwSAL_createSensor(&m_camera, m_camera_param, m_sal));
-    FRWK_CHECK_DW_ERROR(dwSAL_start(m_sal));
-
+    // if (m_params.salStartIndex == m_params.cameraIndex)
+    if (0)
+    {
+        DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: dwSAL_start: " << Logger::State::endl;
+        FRWK_CHECK_DW_ERROR(dwSAL_start(m_sal));
+    }
     // init input ports
 
     // check config
     dwImageProperties imageProps{};
     if(m_params.cameraType == gwCameraType::GW_CAMERA_RAW)
     {
-        DW_LOGD << "gwCameraNodeImpl: cameraType is: GW_CAMERA_RAW." << Logger::State::endl;
+        DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: cameraType is: GW_CAMERA_RAW." << Logger::State::endl;
         // 通过Orin的ISP后处理出YUV，例如shunyu和virtual_camera
         m_image_type = DW_CAMERA_OUTPUT_NATIVE_PROCESSED;
     }
     if (m_params.cameraType == gwCameraType::GW_CAMERA_YUV)
     {
-        DW_LOGD << "gwCameraNodeImpl: cameraType is: GW_CAMERA_YUV." << Logger::State::endl;
+        DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: cameraType is: GW_CAMERA_YUV." << Logger::State::endl;
         // 通过相机ISP直接出YUV，例如senyun
         m_image_type = DW_CAMERA_OUTPUT_NATIVE_RAW;
     }
@@ -59,7 +73,7 @@ gwCameraNodeImpl::gwCameraNodeImpl(const gwCameraNodeParams& params, const dwCon
     // Init passes
     NODE_REGISTER_PASS("PROCESSED_OUTPUT"_sv, [this]() { return yuv_output(); });
 
-    DW_LOGD << "gwCameraNodeImpl: created" << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: created" << Logger::State::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -74,20 +88,20 @@ gwCameraNodeImpl::~gwCameraNodeImpl()
     {
         dwSAL_release(m_sal);
     }
-    DW_LOGD << "gwCameraNodeImpl: destructed" << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: destructed" << Logger::State::endl;
 }
 
 // SimpleSensorNode
 dwStatus gwCameraNodeImpl::start()
 {
-    DW_LOGD << "gwCameraNodeImpl: start: " << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: start: " << Logger::State::endl;
     FRWK_CHECK_DW_ERROR(dwSensor_start(m_camera));
     // throw ExceptionWithStatus(DW_NOT_IMPLEMENTED, "gwCameraNodeImpl::start() not implemented");
     return DW_SUCCESS;
 }
 dwStatus gwCameraNodeImpl::stop()
 {
-    DW_LOGD << "gwCameraNodeImpl: stop: " << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: stop: " << Logger::State::endl;
     FRWK_CHECK_DW_ERROR(dwSensor_stop(m_camera));
     // throw ExceptionWithStatus(DW_NOT_IMPLEMENTED, "gwCameraNodeImpl::stop() not implemented");
     return DW_SUCCESS;
@@ -95,7 +109,7 @@ dwStatus gwCameraNodeImpl::stop()
 dwStatus gwCameraNodeImpl::isVirtual(bool* isVirtual)
 {
     *isVirtual = 0;
-    DW_LOGD << "gwCameraNodeImpl: isVirtual: " << *isVirtual << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: isVirtual: " << *isVirtual << Logger::State::endl;
     return DW_SUCCESS;
 }
 dwStatus gwCameraNodeImpl::validate()
@@ -112,7 +126,7 @@ dwStatus gwCameraNodeImpl::validate()
 
 dwStatus gwCameraNodeImpl::reset()
 {
-    DW_LOGD << "gwCameraNodeImpl: reset: " << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: reset: " << Logger::State::endl;
     // reset node
     FRWK_CHECK_DW_ERROR(dwSAL_reset(m_sal));
     FRWK_CHECK_DW_ERROR(dwSensor_reset(m_camera));
@@ -134,31 +148,31 @@ dwStatus gwCameraNodeImpl::yuv_output()
     else
     {
         *outPort0.getBuffer() = m_epochCount;
-        DW_LOGD << "[Epoch " << m_epochCount << "] Sent VALUE_0: " << m_epochCount << "." << Logger::State::endl;
+        DW_LOGD << "[Index " << m_params.cameraIndex << "]" << "[Epoch " << m_epochCount << "] Sent VALUE_0: " << m_epochCount << "." << Logger::State::endl;
         outPort0.send();
     }
     if (!gi_oport.isBufferAvailable())
     {
-        DW_LOGD << "[Epoch " << m_epochCount << "] gi_oport.buffer not available." << Logger::State::endl;
+        DW_LOGD << "[Index " << m_params.cameraIndex << "]" << "[Epoch " << m_epochCount << "] gi_oport.buffer not available." << Logger::State::endl;
     }
     else
     {
         m_guardian_instruct.instruct = gwInstruct::STANDBY;
         FRWK_CHECK_DW_ERROR(dwContext_getCurrentTime(&m_guardian_instruct.timestamp_us, m_ctx));
         *gi_oport.getBuffer() = m_guardian_instruct;
-        DW_LOGD << "[Epoch " << m_epochCount << "] Sent GUARDIAN_INSTRUCT: "
+        DW_LOGD << "[Index " << m_params.cameraIndex << "]" << "[Epoch " << m_epochCount << "] Sent GUARDIAN_INSTRUCT: "
                 << " timestamp_us: " << m_guardian_instruct.timestamp_us
                 << " instruct: " << m_guardian_instruct.instruct << "." << Logger::State::endl;
         gi_oport.send();
     }
     if (!yuv_outport.isBufferAvailable())
     {
-        DW_LOGD << "[Epoch " << m_epochCount << "] yuv_outport.buffer not available." << Logger::State::endl;
+        DW_LOGD << "[Index " << m_params.cameraIndex << "]" << "[Epoch " << m_epochCount << "] yuv_outport.buffer not available." << Logger::State::endl;
         return DW_SUCCESS;
     }
     else
     {
-        DW_LOGD << "[Epoch " << m_epochCount << "] yuv_outport.buffer is available." << Logger::State::endl;
+        DW_LOGD << "[Index " << m_params.cameraIndex << "]" << "[Epoch " << m_epochCount << "] yuv_outport.buffer is available." << Logger::State::endl;
     }
 
     // get data and send
@@ -200,12 +214,12 @@ dwStatus gwCameraNodeImpl::yuv_output()
 
     // write outputport
     *yuv_outport.getBuffer() = m_image_yuv;
-    DW_LOGD << "[Epoch " << m_epochCount << "] Sent yuv_output." << Logger::State::endl;
+    DW_LOGD << "[Index " << m_params.cameraIndex << "]" << "[Epoch " << m_epochCount << "] Sent yuv_output." << Logger::State::endl;
     yuv_outport.send();
 
     // return frame
     FRWK_CHECK_DW_ERROR(dwSensorCamera_returnFrame(&m_camera_frame));
-    DW_LOGD << "[Epoch " << m_epochCount++ << "] Greetings from gwCameraNodeImpl: Hello "
+    DW_LOGD << "[Index " << m_params.cameraIndex << "]" << "[Epoch " << m_epochCount++ << "] Greetings from gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: Hello "
             << "!" << Logger::State::endl;
     return DW_SUCCESS;
 }
@@ -213,52 +227,52 @@ dwStatus gwCameraNodeImpl::yuv_output()
 ///////////////////////////////////////////////////////////////////////////////////////
 dwStatus gwCameraNodeImpl::setDataEventReadCallback(DataEventReadCallback)
 {
-    DW_LOGD << "gwCameraNodeImpl: setDataEventReadCallback: " << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: setDataEventReadCallback: " << Logger::State::endl;
     throw ExceptionWithStatus(DW_NOT_IMPLEMENTED, "gwCameraNodeImpl::setDataEventReadCallback() not implemented");
     return DW_SUCCESS;
 }
 dwStatus gwCameraNodeImpl::setDataEventWriteCallback(DataEventWriteCallback)
 {
-    DW_LOGD << "gwCameraNodeImpl: setDataEventWriteCallback: " << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: setDataEventWriteCallback: " << Logger::State::endl;
     throw ExceptionWithStatus(DW_NOT_IMPLEMENTED, "gwCameraNodeImpl::setDataEventWriteCallback() not implemented");
     return DW_SUCCESS;
 }
 // ISensorNode
 dwStatus gwCameraNodeImpl::setAffinityMask(uint affinityMask)
 {
-    DW_LOGD << "gwCameraNodeImpl: setAffinityMask: " << affinityMask << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: setAffinityMask: " << affinityMask << Logger::State::endl;
     throw ExceptionWithStatus(DW_NOT_IMPLEMENTED, "gwCameraNodeImpl::setAffinityMask Not implemented");
     return DW_SUCCESS;
 }
 dwStatus gwCameraNodeImpl::setThreadPriority(int threadPriority)
 {
-    DW_LOGD << "gwCameraNodeImpl: setThreadPriority: " << threadPriority << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: setThreadPriority: " << threadPriority << Logger::State::endl;
     throw ExceptionWithStatus(DW_NOT_IMPLEMENTED, "gwCameraNodeImpl::setThreadPriority Not implemented");
     return DW_SUCCESS;
 }
 dwStatus gwCameraNodeImpl::setStartTime(dwTime_t startTime)
 {
-    DW_LOGD << "gwCameraNodeImpl: setStartTime: "
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: setStartTime: "
             << "startTime" << Logger::State::endl;
     throw ExceptionWithStatus(DW_NOT_IMPLEMENTED, " gwCameraNodeImpl::setStartTime Not implemented");
     return DW_SUCCESS;
 }
 dwStatus gwCameraNodeImpl::setEndTime(dwTime_t endTime)
 {
-    DW_LOGD << "gwCameraNodeImpl: setEndTime: "
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: setEndTime: "
             << "endTime" << Logger::State::endl;
     throw ExceptionWithStatus(DW_NOT_IMPLEMENTED, " gwCameraNodeImpl::setEndTime Not implemented");
     return DW_SUCCESS;
 }
 dwStatus gwCameraNodeImpl::setLockstepDeterministicMode(bool enable)
 {
-    DW_LOGD << "gwCameraNodeImpl: setLockstepDeterministicMode: " << enable << Logger::State::endl;
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: setLockstepDeterministicMode: " << enable << Logger::State::endl;
     throw ExceptionWithStatus(DW_NOT_IMPLEMENTED, "gwCameraNodeImpl::setLockstepDeterministicMode Not implemented");
     return DW_SUCCESS;
 }
 dwStatus gwCameraNodeImpl::getNextTimestamp(dwTime_t& nextTimestamp)
 {
-    DW_LOGD << "gwCameraNodeImpl: getNextTimestamp: "
+    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: getNextTimestamp: "
             << "nextTimestamp" << Logger::State::endl;
     throw ExceptionWithStatus(DW_NOT_IMPLEMENTED, "gwCameraNodeImpl::getNextTimestamp Not implemented");
     return DW_SUCCESS;

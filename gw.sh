@@ -89,7 +89,7 @@ function cmake_aarch64() {
 
 # https://colcon.readthedocs.io/en/released/user/installation.html
 function make_aarch64() {
-  nfo "Start make, please wait ..."
+  info "Start make, please wait ..."
   info "make and install on $MACHINE_ARCH..."
 
   cd ${GW_ROOT_DIR}

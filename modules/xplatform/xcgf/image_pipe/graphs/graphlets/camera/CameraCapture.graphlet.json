@@ -20,6 +20,10 @@
             "type": "size_t",
             "default": 0
         },
+        "salStartIndex": {
+            "type": "size_t",
+            "default": 0
+        },
         "cameraType": {
             "type": "gwCameraType",
             "default": "GW_CAMERA_INVALID"
