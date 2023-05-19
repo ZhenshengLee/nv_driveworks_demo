@@ -14,7 +14,6 @@ gwCameraNodeImpl::gwCameraNodeImpl(const gwCameraNodeParams& params, const gwCam
 {
     // resolve params
     DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: cameraIndex is: " << m_params.cameraIndex << "." << Logger::State::endl;
-    DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: salStartIndex is: " << m_params.salStartIndex << "." << Logger::State::endl;
     DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: cameraType is: " << as_integer(m_params.cameraType) << "." << Logger::State::endl;
     DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: cameraParameter is: " << m_params.cameraParameter.c_str() << "." << Logger::State::endl;
     DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: cameraProtocol is: " << m_params.cameraProtocol.c_str() << "." << Logger::State::endl;
@@ -26,20 +25,8 @@ gwCameraNodeImpl::gwCameraNodeImpl(const gwCameraNodeParams& params, const gwCam
     // todo: need a app framework
     m_camera_param.parameters = m_params.cameraParameter.c_str();
     m_camera_param.protocol = m_params.cameraProtocol.c_str();
-    // if (4 == m_params.cameraIndex)
-    if (0)
-    {
-        DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: dwSAL_initialize: " << Logger::State::endl;
-        FRWK_CHECK_DW_ERROR(dwSAL_initialize(&m_sal, m_ctx));
-        DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: m_sal initialized address is: " << (const uint64_t)(const void *)(m_sal) << "." << Logger::State::endl;
-    }
     FRWK_CHECK_DW_ERROR(dwSAL_createSensor(&m_camera, m_camera_param, m_sal));
-    // if (m_params.salStartIndex == m_params.cameraIndex)
-    if (0)
-    {
-        DW_LOGD << "gwCameraNodeImpl" << "[Index " << m_params.cameraIndex << "]: dwSAL_start: " << Logger::State::endl;
-        FRWK_CHECK_DW_ERROR(dwSAL_start(m_sal));
-    }
+
     // init input ports
 
     // check config

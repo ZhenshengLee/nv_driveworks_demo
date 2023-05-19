@@ -3,80 +3,54 @@ VERSION 16.1.0
 SCHEDULE 0
 
 HYPEREPOCH{
-23: [23];
+16: [16];
 }
 
 SYNC{
-s0(2,{pilotPipe_process:CPU()},{pilotPipe_process:CPU(),pilotPipe_process:CUDA(1)});
-s1(0,{pilotPipe_process:CUDA(1)},{pilotPipe_process:CPU(),pilotPipe_process:CUDA(1)});
-s2(0,{pilotPipe_process:CUDA(1)},{pilotPipe_process:CPU()});
-s3(2,{pilotPipe_process:CPU()},{framesync_TegraA_pilotHyperepoch_cameraEpoch:CPU(),pilotPipe_process:CPU()});
-s4(2,{pilotPipe_process:CPU()},{framesync_TegraA_pilotHyperepoch_cameraEpoch:CPU(),pilotPipe_process:CPU()});
-s5(1,{framesync_TegraA_pilotHyperepoch_cameraEpoch:CPU()},{pilotPipe_process:CPU()});
+s0(1,{cameraFrontLeftPipe_process:CPU()},{cameraFrontLeftPipe_process:CPU(),cameraFrontLeftPipe_process:CUDA(1)});
+s1(0,{cameraFrontLeftPipe_process:CUDA(1)},{cameraFrontLeftPipe_process:CPU()});
+s2(1,{cameraFrontLeftPipe_process:CPU()},{framesync_TegraA_pilotHyperepoch_cameraEpoch:CPU()});
+s3(1,{framesync_TegraA_pilotHyperepoch_cameraEpoch:CPU()},{cameraFrontLeftPipe_process:CPU()});
 }
 
 FENCE{
 f0(s0,1);
-f1(s0,2);
-f2(s1,0);
-f3(s2,0);
-f4(s3,1);
-f5(s3,2);
-f6(s4,1);
-f7(s4,2);
-f8(s5,1);
+f1(s1,0);
+f2(s2,1);
+f3(s3,1);
 }
 
-CLIENT(TegraA:pilotPipe_process(21)) { 
+CLIENT(TegraA:cameraFrontLeftPipe_process(14)) { 
 RESOURCES{
 CUDA CUDA_STREAM0;
 }
-CORE(0, 23) {
-WOF f8;
-CALL [23: 0 % 1] pilotPipe_process_ssm_pass_0(20);
-SIG  f4;
-CALL [23: 0 % 1] dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_0(3);
-CALL [23: 0 % 1] dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_1(4);
-CALL [23: 0 % 1] dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_2(5);
-CALL [23: 0 % 1] dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_0(6);
+CORE(0, 16) {
+WOF f3;
+CALL [16: 0 % 1] cameraFrontLeftPipe_process_ssm_pass_0(3);
+CALL [16: 0 % 1] dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_0(4);
+CALL [16: 0 % 1] dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_1(5);
+CALL [16: 0 % 1] dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_2(6);
+CALL [16: 0 % 1] dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_0(7);
 CUF  f0, CUDA_STREAM0;
-CUSUB [23: 0 % 1] f2, CUDA_STREAM0, dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_1(7);
+CUSUB [16: 0 % 1] f1, CUDA_STREAM0, dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_1(8);
 SIG  f0;
-WOF [23: 0 % 1] f6;
-CUF  f2, CUDA_STREAM0;
-CUF  f1, CUDA_STREAM0;
-CUSUB [23: 0 % 1] f3, CUDA_STREAM0, dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraPreproc_transformNode_pass_1(14);
-SIG  f1;
-WOF [23: 0 % 1] f2;
-CALL [23: 0 % 1] dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_2(9);
-CALL [23: 0 % 1] dwcgfRawCameraDeployPipe_render0_renderNode_pass_0(17);
-CALL [23: 0 % 1] dwcgfRawCameraDeployPipe_render0_renderNode_pass_1(18);
-CALL [23: 0 % 1] dwcgfRawCameraDeployPipe_render0_renderNode_pass_2(19);
-SIG  f5;
-}
-CORE(1, 23) {
-WOF f4;
-CALL [23: 0 % 1] dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraCapture_cameraNode_pass_0(10);
-CALL [23: 0 % 1] dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraCapture_cameraNode_pass_1(11);
-CALL [23: 0 % 1] dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraCapture_cameraNode_pass_2(12);
-CALL [23: 0 % 1] dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraPreproc_transformNode_pass_0(13);
-SIG  f6;
-WOF [23: 0 % 1] f1;
-WOF [23: 0 % 1] f3;
-CALL [23: 0 % 1] dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraPreproc_transformNode_pass_2(16);
-SIG  f7;
+WOF [16: 0 % 1] f1;
+CALL [16: 0 % 1] dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_2(10);
+CALL [16: 0 % 1] dwcgfRawCameraDeployPipe_render0_renderNode_pass_0(11);
+CALL [16: 0 % 1] dwcgfRawCameraDeployPipe_render0_renderNode_pass_1(12);
+CALL [16: 0 % 1] dwcgfRawCameraDeployPipe_render0_renderNode_pass_2(13);
+SIG  f2;
 }
 }
-CLIENT(TegraA:framesync_TegraA_pilotHyperepoch_cameraEpoch(23)) { 
+CLIENT(TegraA:framesync_TegraA_pilotHyperepoch_cameraEpoch(16)) { 
 RESOURCES{
 }
-CORE(0, 23) {
-LOG 0(22);
-SIG  f8;
-WOF [23: 0 % 1] f7;
-WOF [23: 0 % 1] f5;
-LOG 1(22);
-WUP 33000000(22);
+CORE(0, 16) {
+LOG 0(15);
+SIG  f3;
+WOF [16: 0 % 1] f2;
+LOG 1(15);
+WUP 33000000(15);
 }
 }
 
@@ -86,15 +60,15 @@ clients:
 - !CompiledClient
   framesync_epoch: null
   framesync_hyperepoch: null
-  id_: pilotPipe_process
+  id_: cameraFrontLeftPipe_process
   is_deadlock_resolver: false
-  log_id: 21
-  resources: [pilotPipe_process.TegraA.CUDA_STREAM0, pilotPipe_process.TegraA.CUDA_MUTEX_LOCK]
+  log_id: 14
+  resources: [cameraFrontLeftPipe_process.TegraA.CUDA_STREAM0, cameraFrontLeftPipe_process.TegraA.CUDA_MUTEX_LOCK]
   runnables:
   - !CompiledRunnable
     alias_group: null
     b_level: 496001
-    children_log_ids: [8, 14, 9]
+    children_log_ids: [9, 10]
     client: null
     critical_path: true
     dependencies: null
@@ -102,25 +76,25 @@ clients:
     epoch: null
     epoch_id: pilotHyperepoch.cameraEpoch
     frame_id: 0
-    id_: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_1
-    log_id: 7
+    id_: cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_1
+    log_id: 8
     modulo: 0
     monitoring: false
-    parents_log_ids: [6]
+    parents_log_ids: [7]
     post_fence: f0
     pre_fence_list: []
     priority: 10
-    resources: [pilotPipe_process.TegraA.CUDA_STREAM0, TegraA.CPU0, pilotPipe_process.TegraA.CUDA_MUTEX_LOCK]
+    resources: [cameraFrontLeftPipe_process.TegraA.CUDA_STREAM0, TegraA.CPU0, cameraFrontLeftPipe_process.TegraA.CUDA_MUTEX_LOCK]
     runnable_type: CUDASubmitter
     start: 789000
     step: []
     submittee: null
-    submittee_id: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_1_submittee
+    submittee_id: cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_1_submittee
     t_level: 789000
   - !CompiledRunnable
     alias_group: null
     b_level: 479001
-    children_log_ids: [9, 15]
+    children_log_ids: [10]
     client: null
     critical_path: true
     dependencies: null
@@ -128,12 +102,12 @@ clients:
     epoch: null
     epoch_id: pilotHyperepoch.cameraEpoch
     frame_id: 0
-    id_: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_1_submittee
-    log_id: 8
+    id_: cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_1_submittee
+    log_id: 9
     modulo: 0
     monitoring: false
-    parents_log_ids: [7]
-    post_fence: f2
+    parents_log_ids: [8]
+    post_fence: f1
     pre_fence_list: [f0]
     priority: 10
     resources: [TegraA.iGPU]
@@ -145,86 +119,8 @@ clients:
     t_level: 806000
   - !CompiledRunnable
     alias_group: null
-    b_level: 88001
-    children_log_ids: [15, 9, 16]
-    client: null
-    critical_path: false
-    dependencies: null
-    end: 823000
-    epoch: null
-    epoch_id: pilotHyperepoch.cameraEpoch
-    frame_id: 0
-    id_: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraPreproc_transformNode_pass_1
-    log_id: 14
-    modulo: 0
-    monitoring: false
-    parents_log_ids: [13, 7]
-    post_fence: f1
-    pre_fence_list: [f0, f6]
-    priority: 10
-    resources: [pilotPipe_process.TegraA.CUDA_STREAM0, TegraA.CPU0, pilotPipe_process.TegraA.CUDA_MUTEX_LOCK]
-    runnable_type: CUDASubmitter
-    start: 806000
-    step: []
-    submittee: null
-    submittee_id: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraPreproc_transformNode_pass_1_submittee
-    t_level: 789000
-  - !CompiledRunnable
-    alias_group: null
-    b_level: 71001
-    children_log_ids: [16]
-    client: null
-    critical_path: false
-    dependencies: null
-    end: 914000
-    epoch: null
-    epoch_id: pilotHyperepoch.cameraEpoch
-    frame_id: 0
-    id_: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraPreproc_transformNode_pass_1_submittee
-    log_id: 15
-    modulo: 0
-    monitoring: false
-    parents_log_ids: [14, 8]
-    post_fence: f3
-    pre_fence_list: [f2, f1]
-    priority: 10
-    resources: [TegraA.iGPU]
-    runnable_type: CUDASubmittee
-    start: 860000
-    step: []
-    submittee: null
-    submittee_id: null
-    t_level: 806000
-  - !CompiledRunnable
-    alias_group: null
-    b_level: 17001
-    children_log_ids: [22]
-    client: null
-    critical_path: false
-    dependencies: null
-    end: 931000
-    epoch: null
-    epoch_id: pilotHyperepoch.cameraEpoch
-    frame_id: 0
-    id_: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraPreproc_transformNode_pass_2
-    log_id: 16
-    modulo: 0
-    monitoring: false
-    parents_log_ids: [15, 14]
-    post_fence: f7
-    pre_fence_list: [f1, f3]
-    priority: 10
-    resources: [TegraA.CPU1]
-    runnable_type: CPU
-    start: 914000
-    step: []
-    submittee: null
-    submittee_id: null
-    t_level: 860000
-  - !CompiledRunnable
-    alias_group: null
     b_level: 1285001
-    children_log_ids: [3, 10]
+    children_log_ids: [4]
     client: null
     critical_path: true
     dependencies: null
@@ -232,13 +128,13 @@ clients:
     epoch: null
     epoch_id: pilotHyperepoch.cameraEpoch
     frame_id: 0
-    id_: pilotPipe_process.pilotPipe_process_ssm_pass_0
-    log_id: 20
+    id_: cameraFrontLeftPipe_process.cameraFrontLeftPipe_process_ssm_pass_0
+    log_id: 3
     modulo: 0
     monitoring: false
     parents_log_ids: []
-    post_fence: f4
-    pre_fence_list: [f8]
+    post_fence: ''
+    pre_fence_list: [f3]
     priority: 10
     resources: [TegraA.CPU0]
     runnable_type: CPU
@@ -249,8 +145,8 @@ clients:
     t_level: 0
   - !CompiledRunnable
     alias_group: null
-    b_level: 1278001
-    children_log_ids: [4]
+    b_level: 1285001
+    children_log_ids: [5]
     client: null
     critical_path: true
     dependencies: null
@@ -258,33 +154,7 @@ clients:
     epoch: null
     epoch_id: pilotHyperepoch.cameraEpoch
     frame_id: 0
-    id_: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_0
-    log_id: 3
-    modulo: 0
-    monitoring: false
-    parents_log_ids: [20]
-    post_fence: ''
-    pre_fence_list: [f4]
-    priority: 10
-    resources: [TegraA.CPU0]
-    runnable_type: CPU
-    start: 7000
-    step: []
-    submittee: null
-    submittee_id: null
-    t_level: 7000
-  - !CompiledRunnable
-    alias_group: null
-    b_level: 1278001
-    children_log_ids: [5]
-    client: null
-    critical_path: true
-    dependencies: null
-    end: 398000
-    epoch: null
-    epoch_id: pilotHyperepoch.cameraEpoch
-    frame_id: 0
-    id_: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_1
+    id_: cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_0
     log_id: 4
     modulo: 0
     monitoring: false
@@ -294,23 +164,23 @@ clients:
     priority: 10
     resources: [TegraA.CPU0]
     runnable_type: CPU
-    start: 381000
+    start: 7000
     step: []
     submittee: null
     submittee_id: null
-    t_level: 7000
+    t_level: 0
   - !CompiledRunnable
     alias_group: null
-    b_level: 1278001
+    b_level: 1285001
     children_log_ids: [6]
     client: null
     critical_path: true
     dependencies: null
-    end: 415000
+    end: 398000
     epoch: null
     epoch_id: pilotHyperepoch.cameraEpoch
     frame_id: 0
-    id_: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_2
+    id_: cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_1
     log_id: 5
     modulo: 0
     monitoring: false
@@ -320,23 +190,23 @@ clients:
     priority: 10
     resources: [TegraA.CPU0]
     runnable_type: CPU
-    start: 398000
+    start: 381000
     step: []
     submittee: null
     submittee_id: null
-    t_level: 7000
+    t_level: 0
   - !CompiledRunnable
     alias_group: null
-    b_level: 1278001
+    b_level: 1285001
     children_log_ids: [7]
     client: null
     critical_path: true
     dependencies: null
-    end: 789000
+    end: 415000
     epoch: null
     epoch_id: pilotHyperepoch.cameraEpoch
     frame_id: 0
-    id_: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_0
+    id_: cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_2
     log_id: 6
     modulo: 0
     monitoring: false
@@ -346,119 +216,41 @@ clients:
     priority: 10
     resources: [TegraA.CPU0]
     runnable_type: CPU
-    start: 415000
-    step: []
-    submittee: null
-    submittee_id: null
-    t_level: 7000
-  - !CompiledRunnable
-    alias_group: null
-    b_level: 870001
-    children_log_ids: [11]
-    client: null
-    critical_path: false
-    dependencies: null
-    end: 381000
-    epoch: null
-    epoch_id: pilotHyperepoch.cameraEpoch
-    frame_id: 0
-    id_: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraCapture_cameraNode_pass_0
-    log_id: 10
-    modulo: 0
-    monitoring: false
-    parents_log_ids: [20]
-    post_fence: ''
-    pre_fence_list: [f4]
-    priority: 10
-    resources: [TegraA.CPU1]
-    runnable_type: CPU
-    start: 7000
-    step: []
-    submittee: null
-    submittee_id: null
-    t_level: 7000
-  - !CompiledRunnable
-    alias_group: null
-    b_level: 870001
-    children_log_ids: [12]
-    client: null
-    critical_path: false
-    dependencies: null
-    end: 398000
-    epoch: null
-    epoch_id: pilotHyperepoch.cameraEpoch
-    frame_id: 0
-    id_: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraCapture_cameraNode_pass_1
-    log_id: 11
-    modulo: 0
-    monitoring: false
-    parents_log_ids: [10]
-    post_fence: ''
-    pre_fence_list: []
-    priority: 10
-    resources: [TegraA.CPU1]
-    runnable_type: CPU
-    start: 381000
-    step: []
-    submittee: null
-    submittee_id: null
-    t_level: 7000
-  - !CompiledRunnable
-    alias_group: null
-    b_level: 870001
-    children_log_ids: [13]
-    client: null
-    critical_path: false
-    dependencies: null
-    end: 415000
-    epoch: null
-    epoch_id: pilotHyperepoch.cameraEpoch
-    frame_id: 0
-    id_: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraCapture_cameraNode_pass_2
-    log_id: 12
-    modulo: 0
-    monitoring: false
-    parents_log_ids: [11]
-    post_fence: ''
-    pre_fence_list: []
-    priority: 10
-    resources: [TegraA.CPU1]
-    runnable_type: CPU
     start: 398000
     step: []
     submittee: null
     submittee_id: null
-    t_level: 7000
+    t_level: 0
   - !CompiledRunnable
     alias_group: null
-    b_level: 870001
-    children_log_ids: [14]
+    b_level: 1285001
+    children_log_ids: [8]
     client: null
-    critical_path: false
+    critical_path: true
     dependencies: null
     end: 789000
     epoch: null
     epoch_id: pilotHyperepoch.cameraEpoch
     frame_id: 0
-    id_: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraPreproc_transformNode_pass_0
-    log_id: 13
+    id_: cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_0
+    log_id: 7
     modulo: 0
     monitoring: false
-    parents_log_ids: [12]
-    post_fence: f6
+    parents_log_ids: [6]
+    post_fence: ''
     pre_fence_list: []
     priority: 10
-    resources: [TegraA.CPU1]
+    resources: [TegraA.CPU0]
     runnable_type: CPU
     start: 415000
     step: []
     submittee: null
     submittee_id: null
-    t_level: 7000
+    t_level: 0
   - !CompiledRunnable
     alias_group: null
     b_level: 425001
-    children_log_ids: [17]
+    children_log_ids: [11]
     client: null
     critical_path: true
     dependencies: null
@@ -466,13 +258,13 @@ clients:
     epoch: null
     epoch_id: pilotHyperepoch.cameraEpoch
     frame_id: 0
-    id_: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_2
-    log_id: 9
+    id_: cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_2
+    log_id: 10
     modulo: 0
     monitoring: false
-    parents_log_ids: [8, 14, 7]
+    parents_log_ids: [9, 8]
     post_fence: ''
-    pre_fence_list: [f0, f2, f1]
+    pre_fence_list: [f0, f1]
     priority: 10
     resources: [TegraA.CPU0]
     runnable_type: CPU
@@ -484,7 +276,7 @@ clients:
   - !CompiledRunnable
     alias_group: null
     b_level: 425001
-    children_log_ids: [18]
+    children_log_ids: [12]
     client: null
     critical_path: true
     dependencies: null
@@ -492,11 +284,11 @@ clients:
     epoch: null
     epoch_id: pilotHyperepoch.cameraEpoch
     frame_id: 0
-    id_: pilotPipe_process.dwcgfRawCameraDeployPipe_render0_renderNode_pass_0
-    log_id: 17
+    id_: cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_render0_renderNode_pass_0
+    log_id: 11
     modulo: 0
     monitoring: false
-    parents_log_ids: [9]
+    parents_log_ids: [10]
     post_fence: ''
     pre_fence_list: []
     priority: 10
@@ -510,7 +302,7 @@ clients:
   - !CompiledRunnable
     alias_group: null
     b_level: 425001
-    children_log_ids: [19]
+    children_log_ids: [13]
     client: null
     critical_path: true
     dependencies: null
@@ -518,11 +310,11 @@ clients:
     epoch: null
     epoch_id: pilotHyperepoch.cameraEpoch
     frame_id: 0
-    id_: pilotPipe_process.dwcgfRawCameraDeployPipe_render0_renderNode_pass_1
-    log_id: 18
+    id_: cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_render0_renderNode_pass_1
+    log_id: 12
     modulo: 0
     monitoring: false
-    parents_log_ids: [17]
+    parents_log_ids: [11]
     post_fence: ''
     pre_fence_list: []
     priority: 10
@@ -536,7 +328,7 @@ clients:
   - !CompiledRunnable
     alias_group: null
     b_level: 425001
-    children_log_ids: [22]
+    children_log_ids: [15]
     client: null
     critical_path: true
     dependencies: null
@@ -544,12 +336,12 @@ clients:
     epoch: null
     epoch_id: pilotHyperepoch.cameraEpoch
     frame_id: 0
-    id_: pilotPipe_process.dwcgfRawCameraDeployPipe_render0_renderNode_pass_2
-    log_id: 19
+    id_: cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_render0_renderNode_pass_2
+    log_id: 13
     modulo: 0
     monitoring: false
-    parents_log_ids: [18]
-    post_fence: f5
+    parents_log_ids: [12]
+    post_fence: f2
     pre_fence_list: []
     priority: 10
     resources: [TegraA.CPU0]
@@ -566,7 +358,7 @@ clients:
   framesync_hyperepoch: pilotHyperepoch
   id_: framesync_TegraA_pilotHyperepoch_cameraEpoch
   is_deadlock_resolver: false
-  log_id: 23
+  log_id: 16
   resources: []
   runnables:
   - !CompiledRunnable
@@ -581,12 +373,12 @@ clients:
     epoch_id: pilotHyperepoch.cameraEpoch
     frame_id: 0
     id_: framesync_TegraA_pilotHyperepoch_cameraEpoch.framesync_runnable
-    log_id: 22
+    log_id: 15
     modulo: 0
     monitoring: false
-    parents_log_ids: [16, 19]
-    post_fence: f8
-    pre_fence_list: [f7, f5]
+    parents_log_ids: [13]
+    post_fence: f3
+    pre_fence_list: [f2]
     priority: 0
     resources: [TegraA.CPU0]
     runnable_type: CPU
@@ -604,12 +396,12 @@ hyperepochs:
     log_id: 1, period: 33000000}
   id_: pilotHyperepoch
   log_id: 2
-  resources: [TegraA.CPU0, TegraA.CPU1, TegraA.CPU2, TegraA.CPU3, TegraA.iGPU, pilotPipe_process.TegraA.CUDA_MUTEX_LOCK,
-    pilotPipe_process.TegraA.CUDA_STREAM0]
+  resources: [TegraA.CPU0, TegraA.CPU1, TegraA.CPU2, TegraA.CPU3, TegraA.iGPU, cameraFrontLeftPipe_process.TegraA.CUDA_MUTEX_LOCK,
+    cameraFrontLeftPipe_process.TegraA.CUDA_STREAM0]
   schedule: null
   schedule_length: 1285001
 id_: standardSchedule
 resource_type_mapping: {TegraA.CPU0: TegraA.CPU, TegraA.CPU1: TegraA.CPU, TegraA.CPU2: TegraA.CPU,
-  TegraA.CPU3: TegraA.CPU, TegraA.iGPU: TegraA.GPU, TegraB.CPU0: TegraB.CPU, pilotPipe_process.TegraA.CUDA_MUTEX_LOCK: pilotPipe_process.TegraA.MUTEX,
-  pilotPipe_process.TegraA.CUDA_STREAM0: pilotPipe_process.TegraA.CUDA_STREAM}
+  TegraA.CPU3: TegraA.CPU, TegraA.iGPU: TegraA.GPU, TegraB.CPU0: TegraB.CPU, cameraFrontLeftPipe_process.TegraA.CUDA_MUTEX_LOCK: cameraFrontLeftPipe_process.TegraA.MUTEX,
+  cameraFrontLeftPipe_process.TegraA.CUDA_STREAM0: cameraFrontLeftPipe_process.TegraA.CUDA_STREAM}
 schedule_identifier: 0

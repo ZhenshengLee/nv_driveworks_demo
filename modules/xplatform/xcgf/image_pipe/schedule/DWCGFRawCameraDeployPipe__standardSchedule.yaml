@@ -2,136 +2,86 @@
 Version: 3.0.0
 standardSchedule:
   Clients:
-  - pilotPipe_process:
+  - cameraFrontLeftPipe_process:
       Epochs:
       - pilotHyperepoch.cameraEpoch:
           Runnables:
+          - cameraFrontLeftPipe_process_ssm_pass_0:
+              Resources:
+              - CPU
+              WCET: 7.00 us
           - dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_0:
               Dependencies:
-              - pilotPipe_process.pilotPipe_process_ssm_pass_0
+              - cameraFrontLeftPipe_process.cameraFrontLeftPipe_process_ssm_pass_0
               Resources:
               - CPU
               WCET: 374.00 us
           - dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_1:
               Dependencies:
-              - pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_0
-              - pilotPipe_process.pilotPipe_process_ssm_pass_0
+              - cameraFrontLeftPipe_process.cameraFrontLeftPipe_process_ssm_pass_0
+              - cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_0
               Resources:
               - CPU
               WCET: 17.00 us
           - dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_2:
               Dependencies:
-              - pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_1
-              - pilotPipe_process.pilotPipe_process_ssm_pass_0
+              - cameraFrontLeftPipe_process.cameraFrontLeftPipe_process_ssm_pass_0
+              - cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_1
               Resources:
               - CPU
               WCET: 17.00 us
           - dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_0:
               Dependencies:
-              - pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_2
-              - pilotPipe_process.pilotPipe_process_ssm_pass_0
+              - cameraFrontLeftPipe_process.cameraFrontLeftPipe_process_ssm_pass_0
+              - cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_2
               Resources:
               - CPU
               WCET: 374.00 us
           - dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_1:
               Dependencies:
-              - pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_0
-              - pilotPipe_process.pilotPipe_process_ssm_pass_0
+              - cameraFrontLeftPipe_process.cameraFrontLeftPipe_process_ssm_pass_0
+              - cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_0
               Resources:
               - CPU
               - CUDA_MUTEX_LOCK
               - CUDA_STREAM
-              Submits: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_1_submittee
+              Submits: cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_1_submittee
               WCET: 17.00 us
           - dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_1_submittee:
               Dependencies:
-              - pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_1
+              - cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_1
               Resources:
               - GPU
               WCET: 54.00 us
           - dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_2:
               Dependencies:
-              - pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_1_submittee
-              - pilotPipe_process.pilotPipe_process_ssm_pass_0
-              Resources:
-              - CPU
-              WCET: 17.00 us
-          - dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraCapture_cameraNode_pass_0:
-              Dependencies:
-              - pilotPipe_process.pilotPipe_process_ssm_pass_0
-              Resources:
-              - CPU
-              WCET: 374.00 us
-          - dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraCapture_cameraNode_pass_1:
-              Dependencies:
-              - pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraCapture_cameraNode_pass_0
-              - pilotPipe_process.pilotPipe_process_ssm_pass_0
-              Resources:
-              - CPU
-              WCET: 17.00 us
-          - dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraCapture_cameraNode_pass_2:
-              Dependencies:
-              - pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraCapture_cameraNode_pass_1
-              - pilotPipe_process.pilotPipe_process_ssm_pass_0
-              Resources:
-              - CPU
-              WCET: 17.00 us
-          - dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraPreproc_transformNode_pass_0:
-              Dependencies:
-              - pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraCapture_cameraNode_pass_2
-              - pilotPipe_process.pilotPipe_process_ssm_pass_0
-              Resources:
-              - CPU
-              WCET: 374.00 us
-          - dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraPreproc_transformNode_pass_1:
-              Dependencies:
-              - pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraPreproc_transformNode_pass_0
-              - pilotPipe_process.pilotPipe_process_ssm_pass_0
-              Resources:
-              - CPU
-              - CUDA_MUTEX_LOCK
-              - CUDA_STREAM
-              Submits: pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraPreproc_transformNode_pass_1_submittee
-              WCET: 17.00 us
-          - dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraPreproc_transformNode_pass_1_submittee:
-              Dependencies:
-              - pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraPreproc_transformNode_pass_1
-              Resources:
-              - GPU
-              WCET: 54.00 us
-          - dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraPreproc_transformNode_pass_2:
-              Dependencies:
-              - pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontRightPipe_cameraPreproc_transformNode_pass_1_submittee
-              - pilotPipe_process.pilotPipe_process_ssm_pass_0
+              - cameraFrontLeftPipe_process.cameraFrontLeftPipe_process_ssm_pass_0
+              - cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_1_submittee
               Resources:
               - CPU
               WCET: 17.00 us
           - dwcgfRawCameraDeployPipe_render0_renderNode_pass_0:
               Dependencies:
-              - pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_2
-              - pilotPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_2
-              - pilotPipe_process.pilotPipe_process_ssm_pass_0
+              - cameraFrontLeftPipe_process.cameraFrontLeftPipe_process_ssm_pass_0
+              - cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraCapture_cameraNode_pass_2
+              - cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_cameraFrontLeftPipe_cameraPreproc_transformNode_pass_2
               Resources:
               - CPU
               WCET: 374.00 us
           - dwcgfRawCameraDeployPipe_render0_renderNode_pass_1:
               Dependencies:
-              - pilotPipe_process.dwcgfRawCameraDeployPipe_render0_renderNode_pass_0
-              - pilotPipe_process.pilotPipe_process_ssm_pass_0
+              - cameraFrontLeftPipe_process.cameraFrontLeftPipe_process_ssm_pass_0
+              - cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_render0_renderNode_pass_0
               Resources:
               - CPU
               WCET: 17.00 us
           - dwcgfRawCameraDeployPipe_render0_renderNode_pass_2:
               Dependencies:
-              - pilotPipe_process.dwcgfRawCameraDeployPipe_render0_renderNode_pass_1
-              - pilotPipe_process.pilotPipe_process_ssm_pass_0
+              - cameraFrontLeftPipe_process.cameraFrontLeftPipe_process_ssm_pass_0
+              - cameraFrontLeftPipe_process.dwcgfRawCameraDeployPipe_render0_renderNode_pass_1
               Resources:
               - CPU
               WCET: 17.00 us
-          - pilotPipe_process_ssm_pass_0:
-              Resources:
-              - CPU
-              WCET: 7.00 us
       Resources:
         CUDA_STREAM:
         - CUDA_STREAM0: iGPU
@@ -151,8 +101,8 @@ standardSchedule:
       - TegraA.CPU2
       - TegraA.CPU3
       - TegraA.iGPU
-      - pilotPipe_process.TegraA.CUDA_MUTEX_LOCK
-      - pilotPipe_process.TegraA.CUDA_STREAM0
+      - cameraFrontLeftPipe_process.TegraA.CUDA_MUTEX_LOCK
+      - cameraFrontLeftPipe_process.TegraA.CUDA_STREAM0
   Identifier: 0
   SOC:
   - TegraA:

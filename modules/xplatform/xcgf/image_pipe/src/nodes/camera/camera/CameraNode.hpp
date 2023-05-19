@@ -33,7 +33,6 @@ class gwCameraNodeImpl;
 struct gwCameraNodeParams
 {
     size_t cameraIndex;
-    size_t salStartIndex;
     gwCameraType cameraType;
     dw::core::FixedString<256> cameraParameter;
     dw::core::FixedString<256> cameraProtocol;
@@ -84,7 +83,6 @@ class gwCameraNode : public ExceptionSafeSensorNode
         return describeConstructorArguments<gwCameraNodeParams, gwCameraNodeRuntimeParams, dwContextHandle_t>(
             describeConstructorArgument(
                 DW_DESCRIBE_PARAMETER(size_t, "cameraIndex"_sv, &gwCameraNodeParams::cameraIndex),
-                DW_DESCRIBE_PARAMETER(size_t, "salStartIndex"_sv, &gwCameraNodeParams::salStartIndex),
                 DW_DESCRIBE_PARAMETER(gwCameraType, "cameraType"_sv, &gwCameraNodeParams::cameraType),
                 DW_DESCRIBE_PARAMETER(dw::core::FixedString<256>, "cameraParameter"_sv,
                                       &gwCameraNodeParams::cameraParameter),
