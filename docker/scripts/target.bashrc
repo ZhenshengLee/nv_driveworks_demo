@@ -19,6 +19,7 @@ export ROS_DOMAIN_ID=110
 # cuda
 export PATH=/usr/local/cuda/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/opt/xlab/sysroot/tcp_pubsub-1.0.4-Linux/lib:$LD_LIBRARY_PATH
 
 # source the prebuilt ros2 binary
 source /opt/ros/foxy-smacc2/target/colcon/install/local_setup.bash

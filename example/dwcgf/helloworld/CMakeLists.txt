@@ -69,12 +69,21 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
+# tcp_pubsub
+find_package(tcp_pubsub REQUIRED)
+
+# tools
+add_executable(tcp2ros ./tools/tcp2ros.cpp)
+ament_target_dependencies(tcp2ros "rclcpp" "std_msgs" )
+target_link_libraries(tcp2ros tcp_pubsub::tcp_pubsub)
+gw_add_sample(tcp2ros)
+
 #-------------------------------------------------------------------------------
 # Custom nodes shared library
 #-------------------------------------------------------------------------------
 add_library(${PROJECT_NAME} SHARED ${DWCGF_NODES_FILES})
 ament_target_dependencies(${PROJECT_NAME} "rclcpp" "std_msgs" )
-target_link_libraries(${PROJECT_NAME} ${LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${LIBRARIES} tcp_pubsub::tcp_pubsub)
 target_include_directories(${PROJECT_NAME}
                            PUBLIC
                            ${CUDA_DIR}/include

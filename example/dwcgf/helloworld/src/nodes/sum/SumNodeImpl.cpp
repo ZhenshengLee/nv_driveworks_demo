@@ -56,7 +56,12 @@ SumNodeImpl::SumNodeImpl(const SumNodeParams& params, const dwContextHandle_t ct
     m_node = rclcpp::Node::make_shared("SumNode");
     m_pub = m_node->create_publisher<std_msgs::msg::String>("chatter", 10);
     m_msg = std::make_unique<std_msgs::msg::String>();
-    m_msg->data = "Hello World From SumNode!";
+    m_msg->data = "Hello World From SumNode with ROS2!";
+
+    // init tcp_pubsub
+    m_tcp_executor = std::make_shared<tcp_pubsub::Executor>(6);
+    m_tcp_pub = std::make_unique<tcp_pubsub::Publisher>(m_tcp_executor, 1588);
+    m_tcp_msg = "Hello World From SumNode with tcp_pubsub 1588!";
 
     DW_LOGD << "SumNodeImpl: ros inited." << Logger::State::endl;
 
@@ -91,6 +96,11 @@ dwStatus SumNodeImpl::process()
     DW_LOGD << "[Epoch " << m_epochCount << "]"
             << " ros publish!!! "
             << Logger::State::endl;
+
+    // tcp pub
+    m_tcp_pub->send(m_tcp_msg.data(), m_tcp_msg.size());
+    DW_LOGD << "[Epoch " << m_epochCount << "]"
+            << " tcp publish!!! " << Logger::State::endl;
 
     ++m_epochCount;
     return DW_SUCCESS;

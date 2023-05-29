@@ -220,3 +220,6 @@ set(PYTHON_SOABI cpython-38m-aarch64-linux-gnu)
 # set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 # set(ENV{PKG_CONFIG_PATH} ${VIBRANTE_PDK}/filesystem/targetfs/usr/lib/aarch64-linux-gnu/pkgconfig)
 set(ENV{PKG_CONFIG_PATH} /usr/lib/aarch64-linux-gnu/pkgconfig)
+
+# tcp_pubsub
+set(tcp_pubsub_DIR "/opt/xlab/sysroot/tcp_pubsub-1.0.4-Linux/lib/cmake/tcp_pubsub")

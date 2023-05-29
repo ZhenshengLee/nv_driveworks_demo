@@ -38,6 +38,10 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 
+// tcp_pubsub
+#include <tcp_pubsub/executor.h>
+#include <tcp_pubsub/publisher.h>
+
 namespace dw
 {
 namespace framework
@@ -65,6 +69,11 @@ private:
     rclcpp::Node::SharedPtr m_node;
     rclcpp::Publisher<std_msgs::msg::String>::SharedPtr m_pub;
     std::unique_ptr<std_msgs::msg::String> m_msg;
+
+    // tcp_pubsub res
+    std::shared_ptr<tcp_pubsub::Executor> m_tcp_executor;
+    std::unique_ptr<tcp_pubsub::Publisher> m_tcp_pub;
+    std::string m_tcp_msg;
 };
 
 } // namespace framework

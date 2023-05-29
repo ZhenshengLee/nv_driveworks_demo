@@ -9,3 +9,5 @@ _gsdata_/
 res/dw-samples-src.tar.gz
 res/ros-foxy-smacc2.tar.gz
 res/ros-foxy.tar.gz
+res/tcp_pubsub-1.0.4-Linux.tar.gz
+res/tcp_pubsub_bin.tar.gz

@@ -39,3 +39,7 @@ sudo ln -s /usr/include/boost /drive/drive-linux/include/boost
 # ros2 prebuilt-binary
 sudo mkdir -p /drive/drive-linux/filesystem/targetfs/opt/ros/foxy-smacc2/
 sudo tar --use-compress-program=pigz -xvpf res/ros-foxy-smacc2.tar.gz -C /drive/drive-linux/filesystem/targetfs/opt/ros/foxy-smacc2/
+
+# tcp_pubsub
+sudo mkdir -p /opt/xlab/sysroot
+sudo tar --use-compress-program=pigz -xvpf res/tcp_pubsub-1.0.4-Linux.tar.gz -C /opt/xlab/sysroot

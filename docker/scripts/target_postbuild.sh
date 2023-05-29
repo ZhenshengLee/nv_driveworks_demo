@@ -35,3 +35,8 @@ sudo apt install -y ros-foxy-demo-nodes-cpp
 # ros2 prebuilt-binary
 sudo mkdir -p /opt/ros/foxy-smacc2/
 sudo tar --use-compress-program=pigz -xvpf res/ros-foxy-smacc2.tar.gz -C /opt/ros/foxy-smacc2/
+
+# tcp_pubsub
+sudo mkdir -p /opt/xlab/sysroot
+sudo tar --use-compress-program=pigz -xvpf res/tcp_pubsub-1.0.4-Linux.tar.gz -C /opt/xlab/sysroot
+sudo tar --use-compress-program=pigz -xvpf res/tcp_pubsub_bin.tar.gz -C /opt/xlab/sysroot
