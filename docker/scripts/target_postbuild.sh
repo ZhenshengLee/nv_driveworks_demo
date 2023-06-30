@@ -24,7 +24,7 @@ pip3 config set global.index-url http://mirrors.xlab.gacrnd.com/repository/pypi/
 sudo pip3 config set global.trusted-host mirrors.xlab.gacrnd.com
 sudo pip3 config set global.index-url http://mirrors.xlab.gacrnd.com/repository/pypi/simple
 
-sudo apt install -y nano pigz bc strace ltrace gdb
+sudo apt install -y nano pigz bc strace ltrace gdb kmod
 # systemd
 
 # dw-samples-src to debug

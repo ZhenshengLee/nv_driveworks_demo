@@ -152,6 +152,8 @@ function local_volumes() {
             -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
             -v /etc/localtime:/etc/localtime:ro \
             -v /usr/src:/usr/src \
+            -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+            -v /lib/modules:/lib/modules:ro \
             -v /lib/mgaules:/lib/mgaules"
     echo "${volumes}"
 }

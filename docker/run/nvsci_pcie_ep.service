@@ -1,0 +1,31 @@
+# systemd service to make driveorin-devkit pcie end point
+# https://unix.stackexchange.com/questions/71064/systemd-automate-modprobe-command-at-boot-time
+# sudo sed -i 's/blacklist nvscic2c-pcie-epc//' /etc/modprobe.d/blacklist-tegra.conf
+# sudo sed -i 's/blacklist nvscic2c-pcie-epf//' /etc/modprobe.d/blacklist-tegra.conf
+# cat /etc/modprobe.d/blacklist-tegra.conf | grep nvsci
+# sudo cp ./docker/run/nvsci_pcie_rp.service /lib/systemd/system/
+# sudo cp ./docker/run/nvsci_pcie_ep.service /lib/systemd/system/
+# sudo systemctl daemon-reload
+# sudo systemctl start nvsci_pcie_ep.service
+# sudo systemctl stop nvsci_pcie_ep.service
+# systemctl status nvsci_pcie_ep.service
+# systemctl status modprobe@nvscic2c_pcie_epf.service
+# sudo systemctl enable nvsci_pcie_ep.service
+# sudo modprobe -c | grep nvsci
+# lsmod | grep nvsci
+
+[Unit]
+Description=Setup driveorin-devkit pcie end point
+After=modprobe@nvscic2c_pcie_epf.service
+Requires=modprobe@nvscic2c_pcie_epf.service
+Conflicts=nvsci_pcie_rp.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c "echo start pcie-hotplug && cd /sys/kernel/config/pci_ep/ && mkdir -p functions/nvscic2c_epf_22CC/func && echo 0x10DE > functions/nvscic2c_epf_22CC/func/vendorid && echo 0x22CC > functions/nvscic2c_epf_22CC/func/deviceid && ln -s functions/nvscic2c_epf_22CC/func controllers/141c0000.pcie_ep && echo 0 > controllers/141c0000.pcie_ep/start && echo 1 > controllers/141c0000.pcie_ep/start "
+RemainAfterExit=true
+ExecStop=/bin/bash -c "echo start pcie-hotunplug && cd /sys/kernel/config/pci_ep/ && echo 0 > controllers/141c0000.pcie_ep/start && unlink controllers/141c0000.pcie_ep/func "
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target

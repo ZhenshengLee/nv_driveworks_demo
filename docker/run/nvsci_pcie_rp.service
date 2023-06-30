@@ -1,0 +1,29 @@
+# systemd service to make driveorin-devkit pcie root port
+# https://unix.stackexchange.com/questions/71064/systemd-automate-modprobe-command-at-boot-time
+# sudo sed -i 's/blacklist nvscic2c-pcie-epc//' /etc/modprobe.d/blacklist-tegra.conf
+# sudo sed -i 's/blacklist nvscic2c-pcie-epf//' /etc/modprobe.d/blacklist-tegra.conf
+# cat /etc/modprobe.d/blacklist-tegra.conf | grep nvsci
+# sudo cp ./docker/run/nvsci_pcie_rp.service /lib/systemd/system/
+# sudo cp ./docker/run/nvsci_pcie_ep.service /lib/systemd/system/
+# sudo systemctl daemon-reload
+# sudo systemctl start nvsci_pcie_rp.service
+# systemctl status nvsci_pcie_rp.service
+# systemctl status modprobe@nvscic2c_pcie_epc.service
+# sudo systemctl enable nvsci_pcie_rp.service
+# sudo modprobe -c | grep nvsci
+# lsmod | grep nvsci
+
+[Unit]
+Description=Setup driveorin-devkit pcie root port
+After=modprobe@nvscic2c_pcie_epc.service
+Requires=modprobe@nvscic2c_pcie_epc.service
+Conflicts=nvsci_pcie_ep.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c "echo Setup driveorin-devkit pcie root port - start."
+RemainAfterExit=false
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target
