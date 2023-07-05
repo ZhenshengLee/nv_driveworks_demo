@@ -1,8 +1,8 @@
-#ifndef CHANNEL_PACKET_TYPES_GUARDIAN_INSTRUCT_HPP_
-#define CHANNEL_PACKET_TYPES_GUARDIAN_INSTRUCT_HPP_
+#ifndef CHANNEL_PACKET_TYPES_GUARDIAN_GUARDIAN_INSTRUCT_HPP_
+#define CHANNEL_PACKET_TYPES_GUARDIAN_GUARDIAN_INSTRUCT_HPP_
 
 #include <dwcgf/channel/ChannelPacketTypes.hpp>
-#include <channel/AvEnums.hpp>
+#include <channel/common/AvEnums.hpp>
 
 // c struct
 #ifdef __cplusplus
@@ -38,4 +38,4 @@ typedef struct gwGuardianInstruct
 // here declare node init output port parameters
 DWFRAMEWORK_DECLARE_PACKET_TYPE_POD(gwGuardianInstruct);
 
-#endif  // CHANNEL_PACKET_TYPES_GUARDIAN_INSTRUCT_HPP_
+#endif  // CHANNEL_PACKET_TYPES_GUARDIAN_GUARDIAN_INSTRUCT_HPP_

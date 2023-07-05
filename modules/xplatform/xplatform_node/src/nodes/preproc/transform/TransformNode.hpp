@@ -12,8 +12,8 @@
 #include <dwcgf/parameter/ParameterDescriptor.hpp>
 
 // custom dwchannel type
-#include "channel/GuardianInstruct.hpp"
-#include "channel/CustomRawBuffer.hpp"
+#include "channel/guardian_msgs/GuardianInstruct.hpp"
+#include "channel/sample_msgs/CustomRawBuffer.hpp"
 
 namespace dw
 {

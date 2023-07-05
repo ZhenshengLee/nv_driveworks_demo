@@ -17,9 +17,9 @@
 #include <dwcgf/port/Port.hpp>
 #include <dwcgf/port/PortDescriptor.hpp>
 // custom dwchannel type
-#include "channel/Image.hpp"
-#include "channel/GuardianInstruct.hpp"
-#include "channel/CustomRawBuffer.hpp"
+#include "channel/sensor_msgs/Image.hpp"
+#include "channel/guardian_msgs/GuardianInstruct.hpp"
+#include "channel/sample_msgs/CustomRawBuffer.hpp"
 // custom parameter
 #include "xplatform_node/parameter/CameraTypes.hpp"
 

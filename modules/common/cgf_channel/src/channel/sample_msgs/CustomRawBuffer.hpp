@@ -1,5 +1,5 @@
-#ifndef CUSTOM_RAW_BUFFER_HPP
-#define CUSTOM_RAW_BUFFER_HPP
+#ifndef CHANNEL_PACKET_TYPES_SAMPLE_CUSTOM_RAW_BUFFER_HPP
+#define CHANNEL_PACKET_TYPES_SAMPLE_CUSTOM_RAW_BUFFER_HPP
 
 #include <dw/core/base/Types.h>
 #include <dwcgf/channel/ChannelPacketTypes.hpp>
@@ -54,4 +54,4 @@ constexpr dw::framework::ChannelPacketTypeID CustomRawBufferTypeID = dw::framewo
  */
 DWFRAMEWORK_DECLARE_PACKET_TYPE_RELATION(CustomRawBuffer, CustomRawBuffer, CustomRawBufferTypeID);
 
-#endif // CUSTOM_RAW_BUFFER_HPP
+#endif // CHANNEL_PACKET_TYPES_SAMPLE_CUSTOM_RAW_BUFFER_HPP
